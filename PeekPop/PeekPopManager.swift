@@ -22,7 +22,7 @@ class PeekPopManager {
         window.rootViewController = UIViewController()
         return window
     }()
-
+    
     init(peekPop: PeekPop) {
         self.peekPop = peekPop
     }
@@ -51,10 +51,10 @@ class PeekPopManager {
         let rect = viewController.view.convertRect(context.sourceRect, fromView: context.sourceView)
         peekPopView?.sourceViewScreenshot = viewController.view.screenshotView(true, rect: rect)
         peekPopView?.sourceViewRect = rect
-
+        
         // Take target view controller screenshot
         targetVC.view.frame = viewController.view.bounds
-        peekPopView?.targetViewControllerScreenshot = targetVC.view.screenshotView(false)
+        peekPopView?.targetViewControllerView = targetVC.view
         targetViewController = targetVC
         
         return true
@@ -75,7 +75,7 @@ class PeekPopManager {
     func blurImageWithRadius(image: UIImage, radius: CGFloat) -> UIImage? {
         return image.applyBlurWithRadius(CGFloat(radius), tintColor: nil, saturationDeltaFactor: 1.0, maskImage: nil)
     }
-
+    
     
     /// Add window to heirarchy when peek pop begins
     func peekPopBegan() {
@@ -115,6 +115,7 @@ class PeekPopManager {
         guard let targetViewController = targetViewController, context = context else {
             return
         }
+        peekPopView?.targetViewControllerScreenshot = targetViewController.view.screenshotView(false)
         context.delegate.previewingContext(context, commitViewController: targetViewController)
         peekPopEnded()
     }
@@ -127,12 +128,12 @@ class PeekPopManager {
     func peekPopEnded() {
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.peekPopWindow.alpha = 0.0
-            }) { (finished) -> Void in
-                self.peekPop.peekPopGestureRecognizer?.resetValues()
-                self.peekPopWindow.hidden = true
-                self.peekPopView?.removeFromSuperview()
-                self.peekPopView = nil
+        }) { (finished) -> Void in
+            self.peekPop.peekPopGestureRecognizer?.resetValues()
+            self.peekPopWindow.hidden = true
+            self.peekPopView?.removeFromSuperview()
+            self.peekPopView = nil
         }
     }
-
+    
 }
