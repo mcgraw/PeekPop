@@ -13,7 +13,7 @@ class PeekPopView: UIView {
     //MARK: Constants
     
     // These are 'magic' values
-    let targePreviewPadding = CGSizeMake(28, 140)
+    var targePreviewPadding = CGSizeMake(0, 0)
     
     var sourceViewCenter = CGPoint.zero
     var sourceToCenterXDelta: CGFloat = 0.0
@@ -90,7 +90,7 @@ class PeekPopView: UIView {
         overlayView.frame = self.bounds
         
         targetPreviewView.frame.size = sourceViewRect.size
-        targetPreviewView.imageViewFrame = self.bounds
+        targetPreviewView.imageViewFrame.size = CGSizeMake(self.bounds.size.width-targePreviewPadding.width, self.bounds.size.height-targePreviewPadding.height)
         targetPreviewView.imageView.image = targetViewControllerScreenshot
         targetPreviewView.viewControllerView = targetViewControllerView
         
@@ -146,7 +146,6 @@ class PeekPopView: UIView {
         }
             // Commit target view controller
         else {
-            targetPreviewView.frame = self.bounds
             targetPreviewView.imageContainer.layer.cornerRadius = 0
         }
         

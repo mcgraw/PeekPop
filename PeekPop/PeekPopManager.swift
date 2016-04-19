@@ -37,9 +37,12 @@ class PeekPopManager {
             return false
         }
         
+        
         // Create PeekPopView
+        let screenSize = UIScreen.mainScreen().bounds.size
         let view = PeekPopView()
         peekPopView = view
+        peekPopView?.targePreviewPadding = CGSizeMake(screenSize.width - targetVC.preferredContentSize.width, screenSize.height - targetVC.preferredContentSize.height)
         
         // Take view controller screenshot
         if let viewControllerScreenshot = viewController.view.screenshotView() {
