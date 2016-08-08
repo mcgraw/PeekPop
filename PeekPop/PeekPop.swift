@@ -72,7 +72,7 @@ public class PeekPop: NSObject {
 /// Previewing context struct
 public class PreviewingContext {
     /// Previewing delegate
-    public let delegate: PeekPopPreviewingDelegate
+    public weak var delegate: PeekPopPreviewingDelegate?
     /// Source view
     public let sourceView: UIView
     /// Source rect
@@ -87,7 +87,7 @@ public class PreviewingContext {
 
 
 /// Peek pop previewing delegate
-public protocol PeekPopPreviewingDelegate {
+public protocol PeekPopPreviewingDelegate: class {
     
     /// Provide view controller for previewing context in location. If you return nil, a preview presentation will not be performed.
     func previewingContext(previewingContext: PreviewingContext, viewControllerForLocation location: CGPoint) -> UIViewController?
